@@ -1,0 +1,1463 @@
+<ngx-loading-bar height="4px"></ngx-loading-bar>
+<div class="header pb-6">
+	<div class="container-fluid">
+		<div class="header-body">
+			<div class="row align-items-center py-4">
+				<div class="col-lg-6 col-7">
+					<h6 class="h2 text-dark d-inline-block mb-0">Konfigurasi</h6>
+
+					<nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+						<ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+							<li class=" breadcrumb-item">
+								<a href="javascript:void(0)"> <i class="fas fa-tools text-dark"> </i> </a>
+							</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col">
+            <tabset type="pills" class="nav-fill no-tab-content">
+                <!-- Jenis latihan -->
+                <tab heading="Jenis Latihan">
+                    <div class="card mt-2">
+                        <div class="card-header bg-secondary">
+                            <div class="row">
+                                <div class="col my-auto">
+                                    <h4 class="m-0">Jenis Latihan</h4>
+                                </div>
+
+                                <div class="col text-right">
+                                    <a
+                                        class="btn btn-sm btn-primary text-white" 
+                                        (click)="openModalAdd(addTypeModal)"
+                                    > 
+                                        Tambah Jenis Latihan
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dataTables_wrapper py-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="datatable_length">
+                                        <label>
+                                            Lihat
+                                            <select 
+                                                name="datatable_length" 
+                                                aria-controls="datatable" 
+                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                (change)="entriesChange($event, 'types')">
+                                                <option value="5" [selected]="tableTypeEntries == 5">5</option>
+                                                <option value="10" [selected]="tableTypeEntries == 10">10</option>
+                                                <option value="15" [selected]="tableTypeEntries == 15">15</option>
+                                                <option value="-1" [selected]="tableTypeEntries == -1">Semua</option>
+                                            </select>
+                                            rekod
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="datatable_filter" class="dataTables_filter">
+                                        <label>
+                                            <input 
+                                                type="search"
+                                                class="form-control form-control-sm"
+                                                placeholder="Cari jenis latihan"
+                                                aria-controls="datatable"
+                                                (keyup)="filterTable($event, 'types')"
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <ngx-datatable 
+                                class="bootstrap selection-cell" 
+                                [columnMode]="'force'" 
+                                [headerHeight]="50" 
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableTypeEntries != -1 ? tableTypeEntries : undefined" 
+                                [rows]="tableTypeRows"
+                                [messages]="tableMessages"
+                                (activate)="onActivate($event, 'type')"
+                                [scrollbarH]="true"
+                            >
+                                <ngx-datatable-column
+                                    prop="name"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Nama</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.name}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="active"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktif / Tidak Aktif</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'" class="badge badge-pill badge-success">Aktif</span>
+                                        <span *ngIf="row.active == 'n'" class="badge badge-pill badge-warning">Tidak Aktif</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+        
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktiviti</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button 
+                                            class="btn btn-primary"
+                                            (click)="openModalPatch(patchTypeModal, row, 'types')"
+                                        >
+                                            Lihat
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </tab>
+                <!-- Domain -->
+                <tab heading="Domain">
+                    <div class="card mt-2">
+                        <div class="card-header bg-secondary">
+                            <div class="row">
+                                <div class="col my-auto">
+                                    <h4 class="m-0">Domain</h4>
+                                </div>
+
+                                <div class="col text-right">
+                                    <a
+                                        class="btn btn-sm btn-primary text-white" 
+                                        (click)="openModalAdd(addDomainModal)"
+                                    > 
+                                        Tambah Domain 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dataTables_wrapper py-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="datatable_length">
+                                        <label>
+                                            Lihat
+                                            <select 
+                                                name="datatable_length" 
+                                                aria-controls="datatable" 
+                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                (change)="entriesChange($event, 'domains')">
+                                                <option value="5" [selected]="tableDomainEntries == 5">5</option>
+                                                <option value="10" [selected]="tableDomainEntries == 10">10</option>
+                                                <option value="15" [selected]="tableDomainEntries == 15">15</option>
+                                                <option value="-1" [selected]="tableDomainEntries == -1">Semua</option>
+                                            </select>
+                                            rekod
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="datatable_filter" class="dataTables_filter">
+                                        <label>
+                                            <input 
+                                                type="search"
+                                                class="form-control form-control-sm"
+                                                placeholder="Cari nama domain"
+                                                aria-controls="datatable"
+                                                (keyup)="filterTable($event, 'domains')"
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <ngx-datatable 
+                                class="bootstrap selection-cell" 
+                                [columnMode]="'force'" 
+                                [headerHeight]="50" 
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableDomainEntries != -1 ? tableDomainEntries : undefined" 
+                                [rows]="tableDomainRows"
+                                [messages]="tableMessages"
+                                (activate)="onActivate($event, 'domains')"
+                                [scrollbarH]="true"
+                            >
+                                <ngx-datatable-column
+                                    prop="name"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Nama</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.name}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="active"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktif / Tidak Aktif</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'" class="badge badge-pill badge-success">Aktif</span>
+                                        <span *ngIf="row.active == 'n'" class="badge badge-pill badge-warning">Tidak Aktif</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+        
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktiviti</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button 
+                                            class="btn btn-primary"
+                                            (click)="openModalPatch(patchDomainModal, row, 'domains')"
+                                        >
+                                            Lihat
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </tab>
+                <!-- Penceramah / fasilitator -->
+                <tab heading="Penceramah / Fasilitator">
+                    <div class="card mt-2">
+                        <div class="card-header bg-secondary">
+                            <div class="row">
+                                <div class="col my-auto">
+                                    <h4 class="m-0">Penceramah / Fasilitator</h4>
+                                </div>
+
+                                <!-- <div class="col text-right">
+                                    <a
+                                        class="btn btn-sm btn-primary text-white" 
+                                        (click)="openModalAdd(addTrainer)"
+                                    > 
+                                        Tambah Penceramah / Fasilitator 
+                                    </a>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="dataTables_wrapper py-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="datatable_length">
+                                        <label>
+                                            Lihat
+                                            <select 
+                                                name="datatable_length" 
+                                                aria-controls="datatable" 
+                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                (change)="entriesChange($event, 'trainers')">
+                                                <option value="5" [selected]="tableTrainerEntries == 5">5</option>
+                                                <option value="10" [selected]="tableTrainerEntries == 10">10</option>
+                                                <option value="15" [selected]="tableTrainerEntries == 15">15</option>
+                                                <option value="-1" [selected]="tableTrainerEntries == -1">Semua</option>
+                                            </select>
+                                            rekod
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="datatable_filter" class="dataTables_filter">
+                                        <label>
+                                            <input 
+                                                type="search"
+                                                class="form-control form-control-sm"
+                                                placeholder="Cari nama penceramah / fasilitator"
+                                                aria-controls="datatable"
+                                                (keyup)="filterTable($event, 'trainers')"
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <ngx-datatable 
+                                class="bootstrap selection-cell" 
+                                [columnMode]="'force'" 
+                                [headerHeight]="50" 
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableTrainerEntries != -1 ? tableTrainerEntries : undefined" 
+                                [rows]="tableTrainerRows"
+                                [messages]="tableMessages"
+                                (activate)="onActivate($event, 'trainers')"
+                                [scrollbarH]="true"
+                            >
+                                <ngx-datatable-column
+                                    prop="name"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Nama</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.name}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                    
+                                <ngx-datatable-column
+                                    prop="phone"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>No. Telefon</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.salary}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="active"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktif / Tidak Aktif</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'" class="badge badge-pill badge-success">Aktif</span>
+                                        <span *ngIf="row.active == 'n'" class="badge badge-pill badge-warning">Tidak Aktif</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Penceramah / Fasilitator</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'" >Fasilitator</span>
+                                        <span *ngIf="row.active == 'n'" >Penceramah</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </tab>
+                <!-- Penganjur -->
+                <tab heading="Penganjur">
+                    <div class="card mt-2">
+                        <div class="card-header bg-secondary">
+                            <div class="row">
+                                <div class="col my-auto">
+                                    <h4 class="m-0">Penganjur</h4>
+                                </div>
+
+                                <div class="col text-right">
+                                    <a
+                                        class="btn btn-sm btn-primary text-white" 
+                                        (click)="openModalAdd(addOrganisationModal)"
+                                    > 
+                                        Tambah Penganjur 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dataTables_wrapper py-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="datatable_length">
+                                        <label>
+                                            Lihat
+                                            <select 
+                                                name="datatable_length" 
+                                                aria-controls="datatable" 
+                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                (change)="entriesChange($event, 'organisations')">
+                                                <option value="5" [selected]="tableOrganisationEntries == 5">5</option>
+                                                <option value="10" [selected]="tableOrganisationEntries == 10">10</option>
+                                                <option value="15" [selected]="tableOrganisationEntries == 15">15</option>
+                                                <option value="-1" [selected]="tableOrganisationEntries == -1">Semua</option>
+                                            </select>
+                                            rekod
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="datatable_filter" class="dataTables_filter">
+                                        <label>
+                                            <input 
+                                                type="search"
+                                                class="form-control form-control-sm"
+                                                placeholder="Cari nama penganjur"
+                                                aria-controls="datatable"
+                                                (keyup)="filterTable($event, 'organisations')"
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <ngx-datatable 
+                                class="bootstrap selection-cell" 
+                                [columnMode]="'force'" 
+                                [headerHeight]="50" 
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableOrganisationEntries != -1 ? tableOrganisationEntries : undefined" 
+                                [rows]="tableOrganisationRows"
+                                [messages]="tableMessages"
+                                (activate)="onActivate($event, 'organisations')"
+                                [scrollbarH]="true"
+                            >
+                                <ngx-datatable-column
+                                    prop="name"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Nama</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.name}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+                    
+                                <ngx-datatable-column
+                                    prop="shortname"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Nama Pendek</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.office}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="active"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktif / Tidak Aktif</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'" class="badge badge-pill badge-success">Aktif</span>
+                                        <span *ngIf="row.active == 'n'" class="badge badge-pill badge-warning">Tidak Aktif</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+        
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktiviti</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button 
+                                            class="btn btn-primary text-right"
+                                            (click)="openModalPatch(patchOrganisationModal, row, 'organisations')"
+                                        >
+                                            Lihat
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </tab>
+                <!-- Teras -->
+                <tab heading="Teras">
+                    <div class="card mt-2">
+                        <div class="card-header bg-secondary">
+                            <div class="row">
+                                <div class="col my-auto">
+                                    <h4 class="m-0">Teras</h4>
+                                </div>
+
+                                <div class="col text-right">
+                                    <a
+                                        class="btn btn-sm btn-primary text-white" 
+                                        (click)="openModalAdd(addCoreModal)"
+                                    > 
+                                        Tambah Teras 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dataTables_wrapper py-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="datatable_length">
+                                        <label>
+                                            Lihat
+                                            <select 
+                                                name="datatable_length" 
+                                                aria-controls="datatable" 
+                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                (change)="entriesChange($event, 'cores')">
+                                                <option value="5" [selected]="tableCoreEntries == 5">5</option>
+                                                <option value="10" [selected]="tableCoreEntries == 10">10</option>
+                                                <option value="15" [selected]="tableCoreEntries == 15">15</option>
+                                                <option value="-1" [selected]="tableCoreEntries == -1">Semua</option>
+                                            </select>
+                                            rekod
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="datatable_filter" class="dataTables_filter">
+                                        <label>
+                                            <input 
+                                                type="search"
+                                                class="form-control form-control-sm"
+                                                placeholder="Cari nama teras"
+                                                aria-controls="datatable"
+                                                (keyup)="filterTable($event, 'cores')"
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <ngx-datatable 
+                                class="bootstrap selection-cell" 
+                                [columnMode]="'force'" 
+                                [headerHeight]="50" 
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableCoreEntries != -1 ? tableCoreEntries : undefined" 
+                                [rows]="tableCoreRows"
+                                [messages]="tableMessages"
+                                (activate)="onActivate($event, 'cores')"
+                                [scrollbarH]="true"
+                            >
+                                <ngx-datatable-column
+                                    prop="parent"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Jenis Teras</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'">Fungsional</span>
+                                        <span *ngIf="row.active == 'n'">Generik</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                    
+                                <ngx-datatable-column
+                                    prop="child"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Teras</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.position}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="active"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktif / Tidak Aktif</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'" class="badge badge-pill badge-success">Aktif</span>
+                                        <span *ngIf="row.active == 'n'" class="badge badge-pill badge-warning">Tidak Aktif</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+        
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktiviti</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button 
+                                            class="btn btn-primary text-right"
+                                            (click)="openModalPatch(patchCoreModal, row, 'cores')"
+                                        >
+                                            Lihat
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </tab>
+                <!-- Peperiksaan -->
+                <tab heading="Peperiksaan">
+                    <div class="card mt-2">
+                        <div class="card-header bg-secondary">
+                            <div class="row">
+                                <div class="col my-auto">
+                                    <h4 class="m-0">Peperiksaan</h4>
+                                </div>
+
+                                <div class="col text-right">
+                                    <a
+                                        class="btn btn-sm btn-primary text-white" 
+                                        (click)="openModalAdd(addExamModal)"
+                                    > 
+                                        Tambah Peperiksaan 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dataTables_wrapper py-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="datatable_length">
+                                        <label>
+                                            Lihat
+                                            <select 
+                                                name="datatable_length" 
+                                                aria-controls="datatable" 
+                                                class="form-control form-control-sm custom-select custom-select-sm"
+                                                (change)="entriesChange($event, 'exams')">
+                                                <option value="5" [selected]="tableExamEntries == 5">5</option>
+                                                <option value="10" [selected]="tableExamEntries == 10">10</option>
+                                                <option value="15" [selected]="tableExamEntries == 15">15</option>
+                                                <option value="-1" [selected]="tableExamEntries == -1">Semua</option>
+                                            </select>
+                                            rekod
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="datatable_filter" class="dataTables_filter">
+                                        <label>
+                                            <input 
+                                                type="search"
+                                                class="form-control form-control-sm"
+                                                placeholder="Cari tajuk peperiksaan"
+                                                aria-controls="datatable"
+                                                (keyup)="filterTable($event, 'exams')"
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <ngx-datatable 
+                                class="bootstrap selection-cell" 
+                                [columnMode]="'force'" 
+                                [headerHeight]="50" 
+                                [footerHeight]="50"
+                                [rowHeight]="'auto'"
+                                [limit]="tableExamEntries != -1 ? tableExamEntries : undefined" 
+                                [rows]="tableExamRows"
+                                [messages]="tableMessages"
+                                (activate)="onActivate($event, 'exams')"
+                                [scrollbarH]="true"
+                            >
+                                <ngx-datatable-column
+                                    prop="classification"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Jenis Peperiksaan</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.classification == 'FKW'">FAEDAH KEWANGAN'</span>
+                                        <span *ngIf="row.classification == 'PDP'">PENGESAHAN DALAM PERKHIDMATAN</span>
+                                        <span *ngIf="row.classification == 'PSL'">PEPERIKSAAN PENINGKATAN SECARA LANTIKAN (PSL)</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                    
+                                <ngx-datatable-column
+                                    prop="organiser"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Anjuran</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.office}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="code"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Kod</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.age}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="title"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Nama Peperiksaan</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        {{row.position}}
+                                    </ng-template>
+                                </ngx-datatable-column>
+
+                                <ngx-datatable-column
+                                    prop="active"
+                                >
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktif / Tidak Aktif</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <span *ngIf="row.active == 'y'" class="badge badge-pill badge-success">Aktif</span>
+                                        <span *ngIf="row.active == 'n'" class="badge badge-pill badge-warning">Tidak Aktif</span>
+                                    </ng-template>
+                                </ngx-datatable-column>
+        
+                                <ngx-datatable-column>
+                                    <ng-template ngx-datatable-header-template>
+                                        <span>Aktiviti</span>
+                                    </ng-template>
+                                    <ng-template let-row="row" ngx-datatable-cell-template>
+                                        <button 
+                                            class="btn btn-primary text-right"
+                                            (click)="openModalPatch(patchExamModal, row, 'exams')"
+                                        >
+                                            Lihat
+                                        </button>
+                                    </ng-template>
+                                </ngx-datatable-column>
+                            </ngx-datatable>
+                        </div>
+                    </div>
+                </tab>
+                <!-- Bajet semasa -->
+                <tab heading="Bajet Semasa">
+                    <div class="card mt-2">
+                        <div class="card-header bg-secondary">
+                            <div class="row">
+                                <div class="col my-auto">
+                                    <h4 class="m-0">Bajet semasa</h4>
+                                </div>
+
+                                <div class="col text-right">
+                                    <a
+                                        class="btn btn-sm btn-primary text-white" 
+                                        (click)="openModalPatch(patchConfigurationModal)"
+                                    > 
+                                        Kemaskini Bajet Semasa 
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <h1>RM10000.10</h1>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>
+
+<ng-template #addTypeModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Tambah jenis latihan
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('types')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="typeForm">
+            <div class="form-group">
+                <label class="form-control-label">Jenis Latihan <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Jenis latihan"
+                    formControlName="name"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="type_active_add" formControlName="active">
+                <label class="custom-control-label" for="type_active_add">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="addType()"
+            [disabled]="!typeForm.valid"
+        >
+            Simpan
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('types')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #addCoreModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Tambah teras
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('cores')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="coreForm">
+            <div class="form-group">
+                <label class="form-control-label">Jenis Teras <span class="text-warning">*</span></label>
+                <select class="form-control custom-select" formControlName="parent">
+                    <option *ngFor="let core of coreChoices" value="{{core.value}}">{{core.text}}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Teras <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Teras"
+                    formControlName="child"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="type_core_add" formControlName="active">
+                <label class="custom-control-label" for="type_core_add">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="addCore()"
+            [disabled]="!coreForm.valid"
+        >
+            Simpan
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('cores')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #addDomainModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Tambah domain
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('domains')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="domainForm">
+            <div class="form-group">
+                <label class="form-control-label">Nama <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama domain"
+                    formControlName="name"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="domain_active_add" formControlName="active">
+                <label class="custom-control-label" for="domain_active_add">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="addDomain()"
+            [disabled]="!domainForm.valid"
+        >
+            Simpan
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('domains')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #addOrganisationModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Tambah organisasi
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('organisations')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="organisationForm">
+            <div class="form-group">
+                <label class="form-control-label">Nama Organisasi <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama organisasi"
+                    formControlName="name"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Nama Pendek Organisasi <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama pendek organisasi"
+                    formControlName="shortname"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="organisation_active_add" formControlName="active">
+                <label class="custom-control-label" for="organisation_active_add">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="addOrganisation()"
+            [disabled]="!organisationForm.valid"
+        >
+            Simpan
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('organisations')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #patchTypeModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Kemaskini jenis latihan
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('types')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="typeForm">
+            <div class="form-group">
+                <label class="form-control-label">Jenis Latihan <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Jenis latihan"
+                    formControlName="name"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="type_active_patch" formControlName="active">
+                <label class="custom-control-label" for="type_active_patch">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="patchType()"
+            [disabled]="!typeForm.valid"
+        >
+            Kemaskini
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('types')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #patchCoreModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Kemaskini teras
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('cores')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="coreForm">
+            <div class="form-group">
+                <label class="form-control-label">Jenis Teras <span class="text-warning">*</span></label>
+                <select class="form-control custom-select" formControlName="parent">
+                    <option *ngFor="let core of coreChoices" value="{{core.value}}">{{core.text}}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Teras <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Teras"
+                    formControlName="child"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="core_active_patch" formControlName="active">
+                <label class="custom-control-label" for="core_active_patch">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="patchCore()"
+            [disabled]="!coreForm.valid"
+        >
+            Kemaskini
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('cores')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #patchDomainModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Kemaskini domain
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('domains')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="domainForm">
+            <div class="form-group">
+                <label class="form-control-label">Nama <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama organisasi"
+                    formControlName="name"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="domain_active_patch" formControlName="active">
+                <label class="custom-control-label" for="domain_active_patch">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="patchDomain()"
+            [disabled]="!domainForm.valid"
+        >
+            Simpan
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('domains')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #patchOrganisationModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Kemaskini organisasi
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('organisations')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="organisationForm">
+            <div class="form-group">
+                <label class="form-control-label">Nama Organisasi <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama organisasi"
+                    formControlName="name"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Nama Pendek Organisasi <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama pendek organisasi"
+                    formControlName="shortname"
+                >
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="organisation_active_patch" formControlName="active">
+                <label class="custom-control-label" for="organisation_active_patch">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="patchOrganisation()"
+            [disabled]="!organisationForm.valid"
+        >
+            Kemaskini
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('organisations')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #patchConfigurationModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Kemaskini bajet semasa
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('configurations')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="configurationForm">
+            <div class="form-group">
+                <label class="form-control-label">Bajet Semasa <span class="text-warning">*</span></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-secondary">
+                            RM
+                        </span>
+                    </div>
+                    <input 
+                        type="number"
+                        class="form-control"
+                        formControlName="value"
+                    >
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="patchConfiguration()"
+            [disabled]="!configurationForm.valid"
+        >
+            Kemaskini
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('configurations')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #addExamModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Tambah peperiksaan
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('exams')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="examForm">
+            <div class="form-group">
+                <label class="form-control-label">Nama Peperiksaan <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama peperiksaan"
+                    formControlName="title"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Kod Peperiksaan <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Kod peperiksaan"
+                    formControlName="code"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Anjuran <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Anjuran"
+                    formControlName="organiser"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Jenis Peperiksaan <span class="text-warning">*</span></label>
+                <select 
+                    class="form-control custom-select" 
+                    placeholder="Jenis peperiksaan"
+                    formControlName="classification"
+                >
+                    <option *ngFor="let exam of examChoices" value="{{exam.value}}">{{exam.text}}</option>
+                </select>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="exam_active_add" formControlName="active">
+                <label class="custom-control-label" for="exam_active_add">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="addExam()"
+            [disabled]="!examForm.valid"
+        >
+            Simpan
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('exams')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #patchExamModal>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Kemaskini peperiksaan
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('exams')"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="examForm">
+            <div class="form-group">
+                <label class="form-control-label">Nama Peperiksaan <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Nama peperiksaan"
+                    formControlName="title"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Kod Peperiksaan <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Kod peperiksaan"
+                    formControlName="code"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Anjuran <span class="text-warning">*</span></label>
+                <input 
+                    class="form-control" 
+                    placeholder="Anjuran"
+                    formControlName="organiser"
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label">Jenis Peperiksaan <span class="text-warning">*</span></label>
+                <select 
+                    class="form-control custom-select" 
+                    placeholder="Jenis peperiksaan"
+                    formControlName="classification"
+                >
+                    <option *ngFor="let exam of examChoices" value="{{exam.value}}">{{exam.text}}</option>
+                </select>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="exam_active_patch" formControlName="active">
+                <label class="custom-control-label" for="exam_active_patch">Aktif</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-primary"
+            type="button"
+            (click)="patchExam()"
+            [disabled]="!examForm.valid"
+        >
+            Kemaskini
+        </button>
+
+        <button
+            class="btn btn-outline-primary ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal('exams')"
+        >
+            Tutup
+        </button>
+    </div>
+</ng-template>

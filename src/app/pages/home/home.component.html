@@ -1,0 +1,289 @@
+<div class="home-content">
+  <div class="row">
+    <div class="col align-self-center">
+      <div class="image-slide al">
+        <carousel>
+          <slide>
+            <img src="assets/img/slide/5.jpg" alt="first slide"
+              style="display: block; width: 100%; height: 400px; object-fit: cover;">
+          </slide>
+          <slide>
+            <img src="assets/img/slide/7.jpeg" alt="second slide"
+              style="display: block; width: 100%; height: 400px;object-fit: cover;">
+          </slide>
+          <slide>
+            <img src="assets/img/slide/4.jpg" alt="third slide"
+              style="display: block; width: 100%; height: 400px;object-fit: cover;">
+          </slide>
+        </carousel>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <p> </p>
+  </div>
+
+  <div class="row p-4 text-light">
+    <div class="col-4 d-flex align-items-stretch">
+      <div class="card">
+        <div class="card-header">
+          <h2>Berita</h2>
+        </div>
+        <div class="card-body">
+          <img alt="Image placeholder" class=" card-img-top" src="assets/img/theme/img-1-1000x600.jpg" />
+          <h3 class=" card-title mb-3">Card title</h3>
+
+          <p class=" card-text mb-4">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis
+            non dolore est fuga nobis ipsum illum eligendi nemo iure repellat,
+          </p>
+
+          <a class=" btn btn-primary" href="javascript:void(0)">
+            Go somewhere
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 d-flex align-items-stretch">
+      <div class="card">
+        <div class="card-header">
+          <h2>Takwim</h2>
+        </div>
+        <div class="card-body">
+          <div class=" calendar" data-toggle="calendar" id="calendar"></div>
+          <div aria-hidden="true" aria-labelledby="new-event-label" class=" modal fade" id="new-event" role="dialog"
+            tabindex="-1">
+            <div class=" modal-dialog modal-dialog-centered modal-secondary" role="document">
+              <ng-template #modalAdd>
+                <div class=" modal-body">
+                  <form class=" new-event--form">
+                    <div class=" form-group">
+                      <label class=" form-control-label"> Event title </label>
+
+                      <input class=" form-control form-control-alternative new-event--title" id="new-event--title"
+                        placeholder="Event Title" type="text" (change)="getNewEventTitle($event)" />
+                    </div>
+
+                    <div class=" form-group mb-0">
+                      <label class=" form-control-label d-block mb-3">
+                        Status color
+                      </label>
+
+                      <div class=" btn-group btn-group-toggle btn-group-colors event-tag" data-toggle="buttons">
+                        <label class=" btn bg-info" [ngClass]="{ active: radios === 'bg-info' }">
+                          <input autocomplete="off" checked="checked" name="event-tag" type="radio" value="bg-info"
+                            (click)="radios = 'bg-info'" />
+                        </label>
+
+                        <label class=" btn bg-warning" [ngClass]="{ active: radios === 'bg-warning' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-warning"
+                            (click)="radios = 'bg-warning'" />
+                        </label>
+
+                        <label class=" btn bg-danger" [ngClass]="{ active: radios === 'bg-danger' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-danger"
+                            (click)="radios = 'bg-danger'" />
+                        </label>
+
+                        <label class=" btn bg-success" [ngClass]="{ active: radios === 'bg-success' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-success"
+                            (click)="radios = 'bg-success'" />
+                        </label>
+
+                        <label class=" btn bg-default" [ngClass]="{ active: radios === 'bg-default' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-default"
+                            (click)="radios = 'bg-default'" />
+                        </label>
+
+                        <label class=" btn bg-primary" [ngClass]="{ active: radios === 'bg-primary' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-primary"
+                            (click)="radios = 'bg-primary'" />
+                        </label>
+                      </div>
+                    </div>
+
+                    <input class=" new-event--start" type="hidden" />
+
+                    <input class=" new-event--end" type="hidden" />
+                  </form>
+                </div>
+
+                <div class=" modal-footer">
+                  <button class=" btn btn-primary new-event--add" type="submit" (click)="addNewEvent()">
+                    Add event
+                  </button>
+
+                  <button (click)="addModal.hide()" class=" btn btn-link ml-auto" data-dismiss="modal" type="button">
+                    Close
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <div aria-hidden="true" aria-labelledby="edit-event-label" class=" modal fade" id="edit-event" role="dialog"
+            tabindex="-1">
+            <div class=" modal-dialog modal-dialog-centered modal-secondary" role="document">
+              <ng-template #modalEdit>
+                <div class=" modal-body">
+                  <form class=" edit-event--form">
+                    <div class=" form-group">
+                      <label class=" form-control-label"> Event title </label>
+
+                      <input class=" form-control form-control-alternative edit-event--title" placeholder="Event Title"
+                        type="text" value="{{ eventTitle }}" (change)="getNewEventTitle($event)" />
+                    </div>
+
+                    <div class=" form-group">
+                      <label class=" form-control-label d-block mb-3">
+                        Status color
+                      </label>
+
+                      <div class=" btn-group btn-group-toggle btn-group-colors event-tag mb-0" data-toggle="buttons">
+                        <label class=" btn bg-info" [ngClass]="{ active: radios === 'bg-info' }">
+                          <input autocomplete="off" checked="checked" name="event-tag" type="radio" value="bg-info"
+                            (click)="radios = 'bg-info'" />
+                        </label>
+
+                        <label class=" btn bg-warning" [ngClass]="{ active: radios === 'bg-warning' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-warning"
+                            (click)="radios = 'bg-warning'" />
+                        </label>
+
+                        <label class=" btn bg-danger" [ngClass]="{ active: radios === 'bg-danger' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-danger"
+                            (click)="radios = 'bg-danger'" />
+                        </label>
+
+                        <label class=" btn bg-success" [ngClass]="{ active: radios === 'bg-success' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-success"
+                            (click)="radios = 'bg-success'" />
+                        </label>
+
+                        <label class=" btn bg-default" [ngClass]="{ active: radios === 'bg-default' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-default"
+                            (click)="radios = 'bg-default'" />
+                        </label>
+
+                        <label class=" btn bg-primary" [ngClass]="{ active: radios === 'bg-primary' }">
+                          <input autocomplete="off" name="event-tag" type="radio" value="bg-primary"
+                            (click)="radios = 'bg-primary'" />
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class=" form-group">
+                      <label class=" form-control-label"> Description </label>
+
+                      <textarea class=" form-control form-control-alternative edit-event--description textarea-autosize"
+                        placeholder="Event Desctiption" value="{{ eventDescription }}"
+                        (change)="getNewEventDescription($event)"></textarea>
+
+                      <i class=" form-group--bar"> </i>
+                    </div>
+
+                    <input class=" edit-event--id" type="hidden" />
+                  </form>
+                </div>
+
+                <div class=" modal-footer">
+                  <button class=" btn btn-primary" data-calendar="update" (click)="updateEvent()">
+                    Update
+                  </button>
+
+                  <button class=" btn btn-danger" data-calendar="delete" (click)="deleteEventSweetAlert()">
+                    Delete
+                  </button>
+
+                  <button class=" btn btn-link ml-auto" data-dismiss="modal" (click)="editModal.hide()">
+                    Close
+                  </button>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 d-flex align-items-stretch">
+      <div class="card">
+        <div class="card-header">
+          <h2>Pengumuman</h2>
+        </div>
+        <div class="card-body">
+          <div class=" list-group list-group-flush">
+            <a class=" list-group-item list-group-item-action flex-column align-items-start py-4 px-4"
+              href="javascript:void(0)">
+              <div class=" d-flex w-100 justify-content-between">
+                <div>
+                  <div class=" d-flex w-100 align-items-center">
+                    <img alt="Image placeholder" class=" avatar avatar-xs mr-2" src="assets/img/theme/team-1.jpg" />
+
+                    <h5 class=" mb-1">Tim</h5>
+                  </div>
+                </div>
+
+                <small> 2 hrs ago </small>
+              </div>
+
+              <h4 class=" mt-3 mb-1">New order for Argon Dashboard</h4>
+
+              <p class=" text-sm mb-0">
+                Doasdnec id elit non mi porta gravida at eget metus. Maecenas
+                sed diam eget risus varius blandit.
+              </p>
+            </a>
+
+            <a class=" list-group-item list-group-item-action flex-column align-items-start py-4 px-4"
+              href="javascript:void(0)">
+              <div class=" d-flex w-100 justify-content-between">
+                <div>
+                  <div class=" d-flex w-100 align-items-center">
+                    <img alt="Image placeholder" class=" avatar avatar-xs mr-2" src="assets/img/theme/team-2.jpg" />
+
+                    <h5 class=" mb-1">Mike</h5>
+                  </div>
+                </div>
+
+                <small> 1 day ago </small>
+              </div>
+
+              <h4 class=" mt-3 mb-1">
+                <span class=" text-info"> ● </span> Your theme has been updated
+              </h4>
+
+              <p class=" text-sm mb-0">
+                Doasdnec id elit non mi porta gravida at eget metus. Maecenas
+                sed diam eget risus varius blandit.
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-5">
+      <div class=" card bg-gradient-success">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col-4">
+              <img src="assets/img/slide/qr.png">
+            </div>
+            <div class="col-8 text-white">
+              <h3>Hubungi kami</h3>
+              <p>Paras 25, KOMTAR, 10503 Pulau Pinang<br>
+                Tel : +604-2621957 / Talian Aduan : +604-2642020<br>
+                Faks : +604-2634940<br>
+                Emel : webmaster@penang.gov.my  </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

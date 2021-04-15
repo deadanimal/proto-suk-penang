@@ -1,0 +1,54 @@
+<nav id="navbar-main" class="navbar navbar-horizontal navbar-main navbar-expand-lg navbar-dark navbar-brand-home">
+    <div class="container">
+        <a class="navbar-brand" [routerLink]="['/home']">
+            <img class="logo-img" [src]="imgLogo" />
+        </a>
+        <button 
+            class="navbar-toggler" 
+            type="button" 
+            data-toggle="collapse" 
+            data-target="#navbar-collapse"
+            aria-expanded="false" 
+            aria-label="Toggle navigation"
+            aria-controls="collapseBasic"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse navbar-custom-collapse collapse" id="collapseBasic" [collapse]="">
+            <div class="navbar-collapse-header">
+                <div class="row">
+                    <div class="col-6 collapse-brand">
+                        <a [routerLink]="['/home']">
+                            <img src="assets/img/logo/logo-penang2030.png" />
+                        </a>
+                    </div>
+                    <div class="col-6 collapse-close">
+                        <a [routerLink]="['/auth/login']" class="btn btn-neutral btn-icon">
+                            <span class="nav-link-inner--text text-green"> Log Masuk</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <h2 class="text-white mb-0">Sistem Pengurusan Latihan</h2>
+                    <h4 class="text-white font-weight-light mt-0">
+                        Pejabat Setiausaha Kerajaan Negeri Pulau Pinang
+                    </h4>
+                </li>
+            </ul>
+
+            <hr class="d-lg-none" />
+
+            <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                <li class="nav-item d-none d-lg-block ml-lg-4">
+                    <a [routerLink]="['/auth/login']" class="btn btn-neutral btn-icon">
+                        <span class="nav-link-inner--text text-green"> Log Masuk</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
